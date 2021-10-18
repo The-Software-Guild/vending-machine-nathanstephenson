@@ -10,7 +10,8 @@ import java.util.Scanner;
 
 public class VendingMachineDaoImpl implements VendingMachineDao {
     private static final String DELIMITER = "::";
-    private Map<String, Snack> snacks = new HashMap<>();
+    private Map<Integer, Snack> snacks = new HashMap<>();
+    private int index;
 
     public VendingMachineDaoImpl() {
 
@@ -18,13 +19,16 @@ public class VendingMachineDaoImpl implements VendingMachineDao {
 
     @Override
     public void loadMachineStock(String filename) throws VendingMachineDaoException {
-        Map<String, Snack> loadedSnacks = new HashMap<>();
+        Map<Integer, Snack> loadedSnacks = new HashMap<>();
         try {
             Scanner in = new Scanner(new BufferedReader(new FileReader(filename + ".txt")));
+            int i = 1;
             while (in.hasNextLine()) {
                 Snack s = unmarshallSnack(in.nextLine());
-                loadedSnacks.put(s.getName(), s);
+                loadedSnacks.put(i, s);
+                i++;
             }
+            index = i;
         } catch (Exception e) {
             throw new VendingMachineDaoException("Error loading from persistent storage.");
         }
@@ -46,7 +50,7 @@ public class VendingMachineDaoImpl implements VendingMachineDao {
     }
 
     @Override
-    public Map<String, Snack> getMachineStock() throws VendingMachineDaoException {
+    public Map<Integer, Snack> getMachineStock() throws VendingMachineDaoException {
         try {
             return snacks;
         } catch (Exception e) {
@@ -55,9 +59,9 @@ public class VendingMachineDaoImpl implements VendingMachineDao {
     }
 
     @Override
-    public Snack getSnack(String name) throws VendingMachineDaoException {
+    public Snack getSnack(int i) throws VendingMachineDaoException {
         try {
-            return snacks.get(name);
+            return snacks.get(i);
         } catch (Exception e) {
             throw new VendingMachineDaoException("Error retrieving data.");
         }
@@ -66,16 +70,16 @@ public class VendingMachineDaoImpl implements VendingMachineDao {
     @Override
     public void addSnack(String name, int count, BigDecimal price) throws VendingMachineDaoException {
         try {
-            snacks.put(name, new Snack(name, count, price));
+            snacks.put(++index, new Snack(name, count, price));
         } catch (Exception e) {
             throw new VendingMachineDaoException("Error adding snack to collection.");
         }
     }
 
     @Override
-    public boolean removeSnack(String name) {
-        if (snacks.containsKey(name)) {
-            snacks.remove(name);
+    public boolean removeSnack(int i) {
+        if (snacks.containsKey(i)) {
+            snacks.remove(i);
             return true;
         }
         System.err.println("Snack does not exist to be removed.");
@@ -83,11 +87,10 @@ public class VendingMachineDaoImpl implements VendingMachineDao {
     }
 
     @Override
-    public boolean editSnack(String originalName, String newName, int newCount, BigDecimal newPrice) throws VendingMachineDaoException {
-        if (snacks.containsKey(originalName)) {
-            snacks.remove(originalName);
+    public boolean editSnack(int i, String newName, int newCount, BigDecimal newPrice) throws VendingMachineDaoException {
+        if (snacks.containsKey(i)) {
             try {
-                snacks.put(newName, new Snack(newName, newCount, newPrice));
+                snacks.replace(i, new Snack(newName, newCount, newPrice));
             } catch (Exception e) {
                 throw new VendingMachineDaoException("Error updating snack.");
             }

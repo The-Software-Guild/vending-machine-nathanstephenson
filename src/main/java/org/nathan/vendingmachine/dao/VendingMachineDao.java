@@ -12,13 +12,13 @@ public interface VendingMachineDao {
 
     void saveMachineStock(String filename) throws IOException, VendingMachineDaoException;
 
-    Map<String, Snack> getMachineStock() throws VendingMachineDaoException;
+    Map<Integer, Snack> getMachineStock() throws VendingMachineDaoException;
 
-    Snack getSnack(String name) throws VendingMachineDaoException;
+    Snack getSnack(int i) throws VendingMachineDaoException;
 
     void addSnack(String name, int count, BigDecimal price) throws VendingMachineDaoException;
 
-    boolean removeSnack(String name);
+    boolean removeSnack(int i);
 
-    boolean editSnack(String originalName, String newName, int newCount, BigDecimal newPrice) throws VendingMachineDaoException;
+    boolean editSnack(int i, String newName, int newCount, BigDecimal newPrice) throws VendingMachineDaoException;
 }
