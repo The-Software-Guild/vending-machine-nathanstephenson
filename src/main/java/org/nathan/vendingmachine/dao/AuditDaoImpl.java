@@ -4,7 +4,7 @@ import org.nathan.vendingmachine.dto.Audit;
 
 import java.io.FileWriter;
 import java.io.PrintWriter;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class AuditDaoImpl implements AuditDao{
     private String filename;
@@ -22,7 +22,7 @@ public class AuditDaoImpl implements AuditDao{
     public void logAudit(String operation) throws AuditDaoException {
         try {
             PrintWriter out = new PrintWriter(new FileWriter(filename + ".txt"));
-            out.println(new Audit(LocalDate.now(), operation));
+            out.println(new Audit(LocalDateTime.now(), operation));
             out.flush();
             out.close();
         }catch (Exception e){

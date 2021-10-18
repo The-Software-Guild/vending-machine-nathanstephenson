@@ -1,22 +1,22 @@
 package org.nathan.vendingmachine.dto;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Audit {
-    private LocalDate date;
+    private LocalDateTime date;
     private String operation;
 
-    public Audit(LocalDate date, String operation){
+    public Audit(LocalDateTime date, String operation){
         this.date = date;
         this.operation = operation;
     }
 
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
@@ -29,6 +29,6 @@ public class Audit {
     }
 
     public String toString(){
-        return date.format(DateTimeFormatter.ofPattern("dd MM yyyy")) + ": " + operation;
+        return date.format(DateTimeFormatter.ofPattern("HH:mm:ss - dd/MM/yyyy")) + ": " + operation;
     }
 }
