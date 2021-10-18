@@ -25,7 +25,9 @@ public class VendingMachineDaoImpl implements VendingMachineDao {
             int i = 1;
             while (in.hasNextLine()) {
                 Snack s = unmarshallSnack(in.nextLine());
-                loadedSnacks.put(i, s);
+                if(s.getCount() > 0){
+                    loadedSnacks.put(i, s);
+                }
                 i++;
             }
             index = i;
@@ -40,7 +42,9 @@ public class VendingMachineDaoImpl implements VendingMachineDao {
         try {
             PrintWriter out = new PrintWriter(new FileWriter(filename + ".txt"));
             for (Snack s : snacks.values()) {
-                out.println(marshallSnack(s));
+                if(s.getCount() > 0){
+                    out.println(marshallSnack(s));
+                }
                 out.flush();
             }
             out.close();
