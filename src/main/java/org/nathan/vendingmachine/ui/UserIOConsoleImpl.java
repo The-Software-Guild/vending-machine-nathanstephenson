@@ -55,5 +55,11 @@ public class UserIOConsoleImpl implements UserIO {
         return Currency.valueOf(input);
     }
 
+    @Override
+    public boolean readBool(String prompt) {
+        System.out.println(prompt + " (y/n)");
+        return scanner.nextLine().charAt(0)=='y';
+    }
+
 
 }

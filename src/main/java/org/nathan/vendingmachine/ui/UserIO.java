@@ -12,4 +12,6 @@ public interface UserIO {
     int readInt(String prompt, int min, int max);
 
     Currency readCurrency(String prompt);
+
+    boolean readBool(String prompt);
 }
