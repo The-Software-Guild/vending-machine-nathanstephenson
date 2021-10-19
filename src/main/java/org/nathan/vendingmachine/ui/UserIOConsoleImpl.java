@@ -58,7 +58,7 @@ public class UserIOConsoleImpl implements UserIO {
     @Override
     public boolean readBool(String prompt) {
         System.out.println(prompt + " (y/n)");
-        return scanner.nextLine().charAt(0)=='y';
+        return scanner.nextLine().charAt(0) == 'y';
     }
 
 
