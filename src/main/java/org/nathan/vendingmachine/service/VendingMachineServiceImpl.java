@@ -52,7 +52,7 @@ public class VendingMachineServiceImpl implements VendingMachineServiceLayer {
     @Override
     public void editSnack(int i, Snack snack) throws VendingMachineDaoException, AuditDaoException {
         if (validateSnackExists(i)) {
-            System.err.println("Not yet implemented editSnack");
+            vendingDao.editSnack(i, snack.getName(), snack.getCount(), snack.getPrice());
             logAudit("Edited snack '" + snack.getName() + "'");
         } else {
             System.err.println("Snack does not exist.");
