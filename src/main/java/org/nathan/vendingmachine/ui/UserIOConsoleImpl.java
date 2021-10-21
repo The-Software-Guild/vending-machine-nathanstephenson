@@ -2,6 +2,7 @@ package org.nathan.vendingmachine.ui;
 
 import org.nathan.vendingmachine.service.Currency;
 
+import java.math.BigDecimal;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -35,6 +36,13 @@ public class UserIOConsoleImpl implements UserIO {
             inRange = input >= min && input <= max;
         } while (!inRange);
         return input;
+    }
+
+    @Override
+    public BigDecimal readBigDecimal(String prompt) {
+        System.out.println(prompt);
+        String input = Double.parseDouble(scanner.nextLine()) + "";
+        return new BigDecimal(input);
     }
 
     @Override
