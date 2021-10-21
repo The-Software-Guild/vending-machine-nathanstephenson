@@ -33,9 +33,9 @@ public class VendingMachineServiceImpl implements VendingMachineServiceLayer {
     }
 
     @Override
-    public void addSnack(String name, int count, BigDecimal price) throws VendingMachineDaoException, AuditDaoException {
-        vendingDao.addSnack(name, count, price);
-        logAudit("Added snack '" + name + "'");
+    public void addSnack(Snack snack) throws VendingMachineDaoException, AuditDaoException {
+        vendingDao.addSnack(snack.getName(), snack.getCount(), snack.getPrice());
+        logAudit("Added snack '" + snack.getName() + "'");
     }
 
     @Override
@@ -50,10 +50,10 @@ public class VendingMachineServiceImpl implements VendingMachineServiceLayer {
     }
 
     @Override
-    public void editSnack(int i, String newName, int newCount, BigDecimal newPrice) throws VendingMachineDaoException, AuditDaoException {
+    public void editSnack(int i, Snack snack) throws VendingMachineDaoException, AuditDaoException {
         if (validateSnackExists(i)) {
             System.err.println("Not yet implemented editSnack");
-            logAudit("Edited snack '" + newName + "'");
+            logAudit("Edited snack '" + snack.getName() + "'");
         } else {
             System.err.println("Snack does not exist.");
         }
@@ -63,8 +63,13 @@ public class VendingMachineServiceImpl implements VendingMachineServiceLayer {
     @Override
     public void purchaseSnack(int i) throws VendingMachineDaoException, AuditDaoException {
         Snack s = vendingDao.getSnack(i);
-        vendingDao.editSnack(i, s.getName(), s.getCount() - 1, s.getPrice());
-        logAudit(s.getName() + " purchased.");
+        if(s.getCount() > 1){
+            vendingDao.editSnack(i, s.getName(), s.getCount() - 1, s.getPrice());
+            logAudit(s.getName() + " purchased.");
+        } else {
+            vendingDao.removeSnack(i);
+            logAudit(s.getName() + " purchased. Now out of stock");
+        }
     }
 
     @Override
@@ -93,6 +98,15 @@ public class VendingMachineServiceImpl implements VendingMachineServiceLayer {
     @Override
     public boolean validateSnackExists(int i) throws VendingMachineDaoException {
         return vendingDao.getMachineStock().containsKey(i);
+    }
+
+    @Override
+    public boolean validateSnackExists(String name) throws VendingMachineDaoException {
+        boolean exists = false;
+        for(Snack s : vendingDao.getMachineStock().values()){
+            exists = s.getName().equals(name) || exists;
+        }
+        return exists;
     }
 
     @Override

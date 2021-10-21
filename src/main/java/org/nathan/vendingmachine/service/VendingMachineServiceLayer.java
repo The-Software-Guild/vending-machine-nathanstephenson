@@ -15,11 +15,11 @@ public interface VendingMachineServiceLayer {
 
     Map<Integer, Snack> getSnacks() throws VendingMachineDaoException;
 
-    void addSnack(String name, int count, BigDecimal price) throws VendingMachineDaoException, AuditDaoException;
+    void addSnack(Snack snack) throws VendingMachineDaoException, AuditDaoException;
 
     void removeSnack(int i) throws VendingMachineDaoException, AuditDaoException;
 
-    void editSnack(int i, String newName, int newCount, BigDecimal newPrice) throws VendingMachineDaoException, AuditDaoException;
+    void editSnack(int i, Snack snack) throws VendingMachineDaoException, AuditDaoException;
 
     void purchaseSnack(int i) throws VendingMachineDaoException, AuditDaoException;
 
@@ -30,6 +30,8 @@ public interface VendingMachineServiceLayer {
     void logAudit(String operation) throws AuditDaoException;
 
     boolean validateSnackExists(int i) throws VendingMachineDaoException;
+
+    boolean validateSnackExists(String name) throws VendingMachineDaoException;
 
     boolean validateSnackSelection(int choice) throws VendingMachineDaoException;
 
