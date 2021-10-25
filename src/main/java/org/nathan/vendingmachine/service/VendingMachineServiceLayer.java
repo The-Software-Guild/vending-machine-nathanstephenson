@@ -39,5 +39,7 @@ public interface VendingMachineServiceLayer {
 
     BigDecimal fundsValue(List<Currency> coins);
 
+    List<Currency> getChange(BigDecimal remainingFunds);
+
     boolean sufficientFunds(List<Currency> coins, BigDecimal price);
 }

@@ -7,17 +7,21 @@ import org.nathan.vendingmachine.service.Currency;
 import org.nathan.vendingmachine.service.InsufficientFundsException;
 import org.nathan.vendingmachine.service.VendingMachineServiceLayer;
 import org.nathan.vendingmachine.ui.VendingMachineView;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.List;
 
+@Component
 public class VendingMachineController {
     private final String FILENAME = "vendingmachine";
     private final VendingMachineServiceLayer sl;
     private final VendingMachineView view;
     private BigDecimal funds;
 
+    @Autowired
     public VendingMachineController(VendingMachineServiceLayer service, VendingMachineView view) {
         this.sl = service;
         this.view = view;
@@ -56,7 +60,7 @@ public class VendingMachineController {
                 case 3:
                     switch (view.editStock()) {
                         case 1:
-                            boolean existsToAdd = false;
+                            boolean existsToAdd;
                             do {
                                 Snack newSnack = view.addSnack();
                                 existsToAdd = sl.validateSnackExists(newSnack.getName());
@@ -66,7 +70,7 @@ public class VendingMachineController {
                             } while (existsToAdd);
                             break;
                         case 2:
-                            boolean existsToRemove = false;
+                            boolean existsToRemove;
                             do {
                                 int snackIndex = view.removeSnack(sl.getSnacks());
                                 existsToRemove = sl.validateSnackExists(snackIndex);

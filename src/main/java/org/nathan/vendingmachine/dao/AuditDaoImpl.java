@@ -1,18 +1,21 @@
 package org.nathan.vendingmachine.dao;
 
 import org.nathan.vendingmachine.dto.Audit;
-import org.nathan.vendingmachine.dto.Snack;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 
+@Component
 public class AuditDaoImpl implements AuditDao{
     private String filename;
 
-    public AuditDaoImpl(String filename){
+    @Autowired
+    public AuditDaoImpl(@Value("AuditLog")String filename){
         this.filename = filename;
     }
 

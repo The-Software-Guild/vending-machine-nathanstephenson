@@ -1,11 +1,13 @@
 package org.nathan.vendingmachine.ui;
 
 import org.nathan.vendingmachine.service.Currency;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.Locale;
 import java.util.Scanner;
 
+@Component
 public class UserIOConsoleImpl implements UserIO {
     private Scanner scanner = new Scanner(System.in);
 

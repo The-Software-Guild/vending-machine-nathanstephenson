@@ -2,15 +2,19 @@ package org.nathan.vendingmachine.ui;
 
 import org.nathan.vendingmachine.dto.Snack;
 import org.nathan.vendingmachine.service.Currency;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@Component
 public class VendingMachineView {
     private UserIO io;
 
+    @Autowired
     public VendingMachineView(UserIO userIO) {
         this.io = userIO;
     }

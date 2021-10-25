@@ -5,17 +5,20 @@ import org.nathan.vendingmachine.dao.AuditDaoException;
 import org.nathan.vendingmachine.dao.VendingMachineDao;
 import org.nathan.vendingmachine.dao.VendingMachineDaoException;
 import org.nathan.vendingmachine.dto.Snack;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@Component
 public class VendingMachineServiceImpl implements VendingMachineServiceLayer {
     private VendingMachineDao vendingDao;
     private AuditDao auditDao;
 
+    @Autowired
     public VendingMachineServiceImpl(VendingMachineDao vendingDao, AuditDao auditDao) {
         this.vendingDao = vendingDao;
         this.auditDao = auditDao;
@@ -63,7 +66,7 @@ public class VendingMachineServiceImpl implements VendingMachineServiceLayer {
     @Override
     public void purchaseSnack(int i) throws VendingMachineDaoException, AuditDaoException {
         Snack s = vendingDao.getSnack(i);
-        if(s.getCount() > 1){
+        if (s.getCount() > 1) {
             vendingDao.editSnack(i, s.getName(), s.getCount() - 1, s.getPrice());
             logAudit(s.getName() + " purchased.");
         } else {
@@ -103,7 +106,7 @@ public class VendingMachineServiceImpl implements VendingMachineServiceLayer {
     @Override
     public boolean validateSnackExists(String name) throws VendingMachineDaoException {
         boolean exists = false;
-        for(Snack s : vendingDao.getMachineStock().values()){
+        for (Snack s : vendingDao.getMachineStock().values()) {
             exists = s.getName().equals(name) || exists;
         }
         return exists;
@@ -126,6 +129,38 @@ public class VendingMachineServiceImpl implements VendingMachineServiceLayer {
             total = total.add(c.getValue());
         }
         return total;
+    }
+
+    @Override
+    public List<Currency> getChange(BigDecimal remainingFunds) {
+        List<Currency> change = new ArrayList<>();
+        BigDecimal remainder;
+        if (remainingFunds.compareTo(Currency.TWOPOUND.getValue()) >= 0) {
+
+        } else if (remainingFunds.compareTo(Currency.POUND.getValue()) >= 0) {
+
+        } else if (remainingFunds.compareTo(Currency.FIFTYPENCE.getValue()) >= 0) {
+
+        } else if (remainingFunds.compareTo(Currency.TWENTYPENCE.getValue()) >= 0) {
+
+        } else if (remainingFunds.compareTo(Currency.TENPENCE.getValue()) >= 0) {
+
+        } else if (remainingFunds.compareTo(Currency.FIVEPENCE.getValue()) >= 0) {
+
+        } else if (remainingFunds.compareTo(Currency.TWOPENCE.getValue()) >= 0) {
+
+        } else if (remainingFunds.compareTo(Currency.PENNY.getValue()) >= 0) {
+
+        }
+        return change;
+    }
+
+    private int countCoins(Currency coin, BigDecimal remainder) {
+        int i = 0;
+        while (remainder.compareTo(coin.getValue().multiply(new BigDecimal(i))) > 0) {
+            i++;
+        }
+        return i;
     }
 
     @Override

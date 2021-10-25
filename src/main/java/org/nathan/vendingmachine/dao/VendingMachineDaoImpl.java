@@ -1,6 +1,8 @@
 package org.nathan.vendingmachine.dao;
 
 import org.nathan.vendingmachine.dto.Snack;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.math.BigDecimal;
@@ -8,11 +10,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+@Component
 public class VendingMachineDaoImpl implements VendingMachineDao {
     private static final String DELIMITER = "::";
     private Map<Integer, Snack> snacks = new HashMap<>();
     private int index;
 
+    @Autowired
     public VendingMachineDaoImpl() {
 
     }
